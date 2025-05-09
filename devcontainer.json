@@ -1,0 +1,25 @@
+{
+  "dockerComposeFile": "docker-compose.yaml",
+  "service": "bas-dev",
+  "onCreateCommand": "pre-commit install",
+  "workspaceFolder": "/workspace",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "donjayamanne.python-environment-manager",
+        "ms-toolsai.jupyter",
+        "njpwerner.autodocstring",
+        "ms-python.python",
+        "quarto.quarto",
+        "charliermarsh.ruff",
+        "analytic-signal.preview-pdf",
+        "oderwat.indent-rainbow",
+        "donjayamanne.python-extension-pack",
+        "mhutchie.git-graph",
+        "databricks.databricks",
+        "ms-vscode-remote.remote-containers",
+        "ms-vscode.azurecli"
+      ]
+    }
+  }
+}

@@ -1,0 +1,37 @@
+project:
+  type: book
+
+book:
+  title: "Machine Learning for Energy Transition"
+  subtitle: "A Practical Guide to Data-Driven Solutions"
+  description: "This book provides a comprehensive overview of machine learning applications in the energy sector, focusing on practical implementations and case studies."
+  author: "Anthony Faustine"
+  date: "5/9/2025"
+
+  repo-branch: main
+  repo-actions: [edit]
+
+  chapters:
+    - index.qmd
+    - intro.qmd
+    - summary.qmd
+    - references.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme:
+      - cosmo
+      - brand
+  pdf:
+    documentclass: scrreprt
+    include-in-header: header.tex
+
+format:
+  html: 
+    theme: cosmo
+    code-link: true
+
+
+

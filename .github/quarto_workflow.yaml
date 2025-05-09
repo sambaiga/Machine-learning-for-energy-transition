@@ -1,0 +1,67 @@
+name: quarto-render
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: 
+      - main
+      - master
+  push:
+    branches: 
+      - main
+      - master
+
+jobs:
+  quarto-linux:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      # Step 2: Install Quarto
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          tinytex: true  # Install LaTeX for PDF rendering
+
+      # Step 3: Install Pandoc (required for Quarto, possibly bundled with it)
+      - name: Set up Pandoc
+        uses: r-lib/actions/setup-pandoc@v2
+
+
+      # Step 6: Install Python (latest version)
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+          cache: 'pip'
+
+      - name: Cache uv dependencies
+        uses: actions/cache@v4
+        with:
+          path: .venv
+          key: ${{ runner.os }}-uv-${{ hashFiles('uv.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-uv-
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          version: "0.6.14"
+      - name: Install dependencies
+        run: uv sync  
+      - name: Run Ruff linting
+        run: |
+          uv run ruff check . --fix
+          uv run ruff format --check .
+
+      # Step 8: Render the Quarto book and publish it
+      - name: Publish to GitHub Pages (and render)
+        uses: quarto-dev/quarto-actions/publish@v2
+        with:
+          target: gh-pages  # GitHub Pages target
+          # path: _book   # Uncomment this line if needed to specify the output path
+
